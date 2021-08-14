@@ -351,12 +351,11 @@ end
 require "awesome_print"
 ap ["カフェラテ","モカ","コーヒー"]
 
+
 require "sinatra"
 get "/drink" do
   ["カフェラテ","モカ","コーヒー"].sample
 end
-
-=end
 
 require "net/http"
 require "uri"
@@ -366,3 +365,77 @@ result = Net::HTTP.get(uri)
 hash = JSON.parse(result)
 p hash
 p hash["caffe latte"]
+
+
+require "net/http"
+require "uri"
+require "json"
+uri = URI("http://www.example.com")
+result = Net::HTTP.post(uri,{mocha: 400}.to_json,"Content-Type" => "application/json")
+p result
+
+
+
+puts "金額を入力してください"
+bill = gets.to_i
+puts "割り勘する人数を入力してください"
+number = gets.to_i
+
+begin
+  warikan = bill / number
+  puts "1人当たりの金額は#{warikan}円です"
+rescue ZeroDivisionError
+  puts "おっと、０人では割り勘できないじゃん！"
+end
+
+bill = 100
+numbers = [0,1,2]
+
+numbers.each do |number|
+  warikan = bill /number
+  puts "1人あたり#{warikan}円です"
+rescue ZeroDivisionError
+  puts "おっと、０人はダメやで💓"
+end
+
+def cat(filename)
+  File.open(filename) do |file|
+    file.each_line { |line| puts line }
+  end
+end
+
+filename = ARGV.first
+cat(filename)
+
+
+def type(age)
+	if age < 0
+		raise "年齢がマイナスです（#{age}歳）"
+	elsif age < 20
+		"未成年"
+	else
+	"成年"
+	end
+end
+
+begin
+  age = ARGV.first.to_i
+  type = type(age)
+  puts "#{age}歳は#{type}です"
+rescue => e
+  puts "例外が発生しました: #{e.message}"
+ensure
+  puts "ご利用ありがとうございました"
+end
+
+
+=end
+
+class Drink
+  attr_reader :name
+  attr_writer :name
+end
+
+drink = Drink.new
+drink.name = "カフェラテ"
+puts drink.name
